@@ -15,8 +15,14 @@ rootCAPath = "AmazonRootCA1.pem"
 privateKeyPath = "bfc9084f5e0edb61af0a6c6d0897a1379e3ec791b87b3855d286e49f2c79eb45-private.pem.key"  
 certificatePath = "bfc9084f5e0edb61af0a6c6d0897a1379e3ec791b87b3855d286e49f2c79eb45-certificate.pem.crt"  
 
-clientId = "CDA_Device"
-topic = "/cda/sensorData"
+clientId = "CDA_Device_Lightsensor"
+topic = "/cda/sensorDataLight"
+
+#sensorID
+sensor_id = "Sensor_01" #change this depending on which sensor id it is 
+
+#Time format right here babyyy
+timestamp = time.strftime("%H:%M")
 
 # Initialize AWS IoT MQTT Client
 client = AWSIoTMQTTClient(clientId)
@@ -48,7 +54,8 @@ try:
         # Create JSON payload
         payload = json.dumps({
             "sensor_value": status,
-            "timestamp": int(time.time())
+            "timestamp": timestamp,
+            "sensor_id" : sensor_id
         })
 
         print(f"Publishing to AWS IoT: {payload}")
